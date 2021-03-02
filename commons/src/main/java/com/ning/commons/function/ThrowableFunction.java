@@ -1,5 +1,11 @@
 package com.ning.commons.function;
 
+/**
+ * author: 小马哥
+ *
+ * @param <T> param
+ * @param <R> return
+ */
 @FunctionalInterface
 public interface ThrowableFunction<T, R> {
 

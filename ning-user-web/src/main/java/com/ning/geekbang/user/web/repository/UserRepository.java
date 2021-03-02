@@ -1,10 +1,25 @@
 package com.ning.geekbang.user.web.repository;
 
-/**
- * @Author: nicholas
- * @Date: 2021/3/1 22:13
- * @Descreption:
- */
-public class UserRepository {
+import com.ning.geekbang.user.web.domain.User;
+
+import java.util.Collection;
+
+public interface UserRepository {
+
+    boolean save(User user);
+
+    boolean deleteById(Long userId);
+
+    boolean update(User user);
+
+    User getById(Long userId);
+
+    User getByNameAndPassword(String userName, String password);
+
+    Collection<User> getAll();
+
+    void createTable();
+
+    void dropTable();
 
 }
