@@ -14,7 +14,7 @@ mvn clean package -U
 ```
 
 - 启动
-> 打包完成之后复制 `ning-user-web` 项目的target目路绝对路径: packagePath=E:\my_project\user-platform\ning-user-web\target
+> 打包完成之后复制 `ning-user-web` 项目的target目路绝对路径: packagePath=你本地的target目路的绝对路径
 
 ```bash
 # start
@@ -23,6 +23,10 @@ java -jar ${packagePath}\ning-user-web-1.0-SNAPSHOT-war-exec.jar
 java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y -jar ${packagePath}\ning-user-web-1.0-SNAPSHOT-war-exec.jar
 ``` 
 
-### 接口测试
+### 功能测试
 
-> 登录 http://localhost:8080/user/login?email=123@qq.com&password=123
+> 注册 http://localhost:8080/register
+
+### 单元测试
+
+> 覆盖了UserService所有方法的测试类 com.ning.geekbang.user.web.service.impl.UserServiceImplTest
