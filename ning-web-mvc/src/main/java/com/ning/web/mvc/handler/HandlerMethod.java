@@ -11,12 +11,12 @@ import java.util.Set;
 public class HandlerMethod {
     private final String requestURI;
     private final Method handlerMethod;
-    private final Set<String> supprotedHttpMethods;
+    private final Set<String> supportedHttpMethods;
 
-    public HandlerMethod(String requestURI, Method handlerMethod, Set<String> supprotedHttpMethods) {
+    public HandlerMethod(String requestURI, Method handlerMethod, Set<String> supportedHttpMethods) {
         this.requestURI = requestURI;
         this.handlerMethod = handlerMethod;
-        this.supprotedHttpMethods = supprotedHttpMethods;
+        this.supportedHttpMethods = supportedHttpMethods;
     }
 
     public String getRequestURI() {
@@ -28,6 +28,6 @@ public class HandlerMethod {
     }
 
     public Set<String> getSupprotedHttpMethods() {
-        return supprotedHttpMethods;
+        return supportedHttpMethods;
     }
 }
