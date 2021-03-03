@@ -24,9 +24,9 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
             ")";
 
     private static final String INSERT_SQL = "INSERT INTO users (name,password,email,phoneNumber) VALUES (?,?,?,?)";
-    private static final String DELETE_SQL = "DELETE users WHERE id = ?";
-    private static final String UPDATE_SQL = "UPDATE users SET name = ?,password = ?,email = ?,phoneNumber = ? WHERE id = ?";
-    private static final String SELECT_BY_ID = "SELECT id,name,password,email,phoneNumber from users WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM users WHERE id=?";
+    private static final String UPDATE_SQL = "UPDATE users SET name=?,password=?,email=?,phoneNumber=? WHERE id=?";
+    private static final String SELECT_BY_ID = "SELECT id,name,password,email,phoneNumber from users WHERE id=?";
     private static final String SELECT_BY_NAME_PASSWORD = "SELECT id,name,password,email,phoneNumber FROM users WHERE name=? AND password=?";
     private static final String SELECT_ALL = "SELECT id,name,password,email,phoneNumber FROM users";
 

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import java.util.logging.Logger;
 
 /**
  * @Author: nicholas
@@ -17,6 +18,8 @@ import javax.ws.rs.Path;
  */
 @Path("user")
 public class UserRegisterController implements PageController {
+
+    private static final Logger logger = Logger.getLogger(UserRegisterController.class.getName());
 
     private UserService userService = new UserServiceImpl();
 
@@ -32,7 +35,7 @@ public class UserRegisterController implements PageController {
             return "register_fail.jsp";
         }
         boolean remember = Boolean.parseBoolean(request.getParameter("remember"));
-        System.out.printf("用户注册登录 User = %s,remember = %s\r\n", user.toString(), remember);
+        logger.info(String.format("用户注册登录 User = %s,remember = %s", user.toString(), remember));
         userService.register(user);
         return "register_success.jsp";
     }

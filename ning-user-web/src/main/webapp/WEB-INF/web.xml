@@ -41,6 +41,20 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>RequestFilter</filter-name>
+        <filter-class>com.ning.geekbang.user.web.filter.RequestFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>RequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>

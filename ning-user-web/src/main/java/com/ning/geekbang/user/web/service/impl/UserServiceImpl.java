@@ -5,6 +5,9 @@ import com.ning.geekbang.user.web.repository.UserRepository;
 import com.ning.geekbang.user.web.repository.impl.UserRepositoryImpl;
 import com.ning.geekbang.user.web.service.UserService;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @Author: nicholas
  * @Date: 2021/3/1 21:27
@@ -12,11 +15,17 @@ import com.ning.geekbang.user.web.service.UserService;
  */
 public class UserServiceImpl implements UserService {
 
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
+
     private UserRepository userRepository = new UserRepositoryImpl();
 
     @Override
     public boolean register(User user) {
-        System.out.printf("用户注册 user=%s\r\n", user.toString());
+        User existUser = queryUserByNameAndPassword(user.getName(), user.getPassword());
+        if (existUser != null) {
+            logger.log(Level.SEVERE, String.format("用户注册失败！已注册! name=%s password=%s", existUser.getName(), existUser.getPassword()));
+            return false;
+        }
         return userRepository.save(user);
     }
 

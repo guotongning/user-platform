@@ -106,12 +106,17 @@ public abstract class AbstractRepository implements Repository {
     public <T> List<T> resultSetMapToList(Class<T> clazz, ResultSet resultSet) throws Exception {
         List<T> beans = new ArrayList<>();
         while (resultSet.next()) {
-            beans.add(resultSetMapToBean(clazz, resultSet));
+            beans.add(defaultBeanMapping(clazz, resultSet));
         }
         return beans;
     }
 
     public <T> T resultSetMapToBean(Class<T> clazz, ResultSet resultSet) throws Exception {
+        resultSet.next();
+        return defaultBeanMapping(clazz, resultSet);
+    }
+
+    private  <T> T defaultBeanMapping(Class<T> clazz, ResultSet resultSet) throws Exception {
         BeanInfo userBeanInfo = Introspector.getBeanInfo(clazz, Object.class);
         T t = clazz.newInstance();
         for (PropertyDescriptor propertyDescriptor : userBeanInfo.getPropertyDescriptors()) {
