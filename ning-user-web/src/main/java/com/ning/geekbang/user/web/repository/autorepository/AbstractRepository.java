@@ -1,6 +1,7 @@
 package com.ning.geekbang.user.web.repository.autorepository;
 
 import com.ning.commons.function.ThrowableFunction;
+import com.ning.geekbang.user.web.context.ComponentContext;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -21,6 +22,17 @@ public abstract class AbstractRepository implements Repository {
     private static Logger logger = Logger.getLogger(AbstractRepository.class.getName());
 
     /**
+     * 通用处理方式
+     */
+    protected static Consumer<Throwable> COMMON_EXCEPTION_HANDLER = e -> logger.log(Level.SEVERE, e.getMessage());
+
+    private DBDerbyConnectionManager derbyConnectionManager;
+
+    public AbstractRepository() {
+        this.derbyConnectionManager = ComponentContext.getInstance().getComponent("bean/DBDerbyConnectionManager");
+    }
+
+    /**
      * 数据类型与 ResultSet 方法名映射
      */
     protected static Map<Class, String> resultSetMethodMappings = new HashMap<>();
@@ -32,17 +44,6 @@ public abstract class AbstractRepository implements Repository {
         preparedStatementMethodMappings.put(Long.class, "setLong");
         resultSetMethodMappings.put(String.class, "getString");
         preparedStatementMethodMappings.put(String.class, "setString");
-    }
-
-    /**
-     * 通用处理方式
-     */
-    protected static Consumer<Throwable> COMMON_EXCEPTION_HANDLER = e -> logger.log(Level.SEVERE, e.getMessage());
-
-    private DBDerbyConnectionManager derbyConnectionManager;
-
-    public AbstractRepository() {
-        this.derbyConnectionManager = new DBDerbyConnectionManager();
     }
 
     @Override
@@ -116,7 +117,7 @@ public abstract class AbstractRepository implements Repository {
         return defaultBeanMapping(clazz, resultSet);
     }
 
-    private  <T> T defaultBeanMapping(Class<T> clazz, ResultSet resultSet) throws Exception {
+    private <T> T defaultBeanMapping(Class<T> clazz, ResultSet resultSet) throws Exception {
         BeanInfo userBeanInfo = Introspector.getBeanInfo(clazz, Object.class);
         T t = clazz.newInstance();
         for (PropertyDescriptor propertyDescriptor : userBeanInfo.getPropertyDescriptors()) {

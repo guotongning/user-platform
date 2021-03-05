@@ -55,6 +55,7 @@
     <build>
         <plugins>
             <!-- Tomcat Maven 插件用于构建可执行 war -->
+            <!-- Tomcat 7.x 官方文档：http://tomcat.apache.org/tomcat-7.0-doc/index.html -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -70,6 +71,8 @@
                         <configuration>
                             <!-- ServletContext 路径 -->
                             <path>/</path>
+                            <!-- 不指定开启 启动就报错。 -->
+                            <enableNaming>true</enableNaming>
                         </configuration>
                     </execution>
                 </executions>

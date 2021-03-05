@@ -1,8 +1,12 @@
 package com.ning.geekbang.user.web.repository.autorepository;
 
+import com.ning.geekbang.user.web.context.ComponentContext;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @Author: nicholas
@@ -11,11 +15,23 @@ import java.sql.SQLException;
  */
 public class DBDerbyConnectionManager {
 
-    public static final String DATABASE_URL = "jdbc:derby:/db/user-platform;create=true";
+    private static final Logger logger = Logger.getLogger(DBDerbyConnectionManager.class.getName());
 
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DATABASE_URL);
+    public Connection getConnection() {
+        ComponentContext context = ComponentContext.getInstance();
+        //依赖查找
+        DataSource dataSource = context.getComponent("jdbc/UserPlatformDB");
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+        if (connection != null) {
+            logger.info("connection = " + connection.toString());
+        }
+        return connection;
     }
 
 
