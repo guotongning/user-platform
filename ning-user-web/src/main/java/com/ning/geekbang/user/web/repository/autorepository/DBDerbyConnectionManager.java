@@ -1,7 +1,6 @@
 package com.ning.geekbang.user.web.repository.autorepository;
 
-import com.ning.geekbang.user.web.context.ComponentContext;
-
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,10 +17,10 @@ public class DBDerbyConnectionManager {
     private static final Logger logger = Logger.getLogger(DBDerbyConnectionManager.class.getName());
 
 
+    @Resource(name = "jdbc/UserPlatformDB")
+    private DataSource dataSource;
+
     public Connection getConnection() {
-        ComponentContext context = ComponentContext.getInstance();
-        //依赖查找
-        DataSource dataSource = context.getComponent("jdbc/UserPlatformDB");
         Connection connection = null;
         try {
             connection = dataSource.getConnection();

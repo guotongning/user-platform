@@ -3,6 +3,7 @@ package com.ning.geekbang.user.web.repository.autorepository;
 import com.ning.commons.function.ThrowableFunction;
 import com.ning.geekbang.user.web.context.ComponentContext;
 
+import javax.annotation.Resource;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -26,11 +27,8 @@ public abstract class AbstractRepository implements Repository {
      */
     protected static Consumer<Throwable> COMMON_EXCEPTION_HANDLER = e -> logger.log(Level.SEVERE, e.getMessage());
 
+    @Resource(name = "bean/DBDerbyConnectionManager")
     private DBDerbyConnectionManager derbyConnectionManager;
-
-    public AbstractRepository() {
-        this.derbyConnectionManager = ComponentContext.getInstance().getComponent("bean/DBDerbyConnectionManager");
-    }
 
     /**
      * 数据类型与 ResultSet 方法名映射
