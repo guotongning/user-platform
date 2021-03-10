@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * @Author: nicholas
  * @Date: 2021/3/5 23:47
- * @Descreption: 组件上下文
+ * @Descreption: 组件上下文 这个实现是能有一个实例。应该再启动的时候做检查。但是我没做。
  */
 public class ComponentContext implements WebComponentContext {
 
