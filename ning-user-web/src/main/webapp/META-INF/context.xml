@@ -23,8 +23,20 @@
     <!-- ConnectionManager 相当于spring给容器中注册了一个Bean -->
     <Resource name="bean/DBDerbyConnectionManager" auth="Container"
               type="com.ning.geekbang.user.web.repository.autorepository.DBDerbyConnectionManager"
-              factory="org.apache.naming.factory.BeanFactory"
-    />
+              factory="org.apache.naming.factory.BeanFactory"/>
 
+    <Resource name="bean/EntityManager" auth="Container"
+              type="com.ning.geekbang.user.web.orm.jpa.DelegatingEntityManager"
+              persistenceUnitName="emf"
+              propertiesLocation="META-INF/jpa-datasource.properties"
+              factory="org.apache.naming.factory.BeanFactory"/>
+
+    <Resource name="bean/Validator" auth="Container"
+              type="com.ning.geekbang.user.web.validation.DelegatingValidator"
+              factory="org.apache.naming.factory.BeanFactory"/>
+
+    <Resource name="bean/UserService" auth="Container"
+              type="com.ning.geekbang.user.web.service.impl.UserServiceJAPImpl"
+              factory="org.apache.naming.factory.BeanFactory"/>
 
 </Context>

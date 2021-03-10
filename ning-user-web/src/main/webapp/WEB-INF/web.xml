@@ -7,7 +7,7 @@
 
     <!-- 确保配置再第一位 -->
     <listener>
-        <listener-class>com.ning.geekbang.user.web.listener.DBConnectionInitializerListener</listener-class>
+        <listener-class>com.ning.geekbang.user.web.listener.ApplicationInitializerListener</listener-class>
     </listener>
 
     <servlet>

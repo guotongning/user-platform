@@ -2,6 +2,7 @@ package com.ning.geekbang.user.web.context;
 
 import com.ning.commons.function.ThrowableAction;
 import com.ning.commons.function.ThrowableFunction;
+import com.ning.web.mvc.controller.WebComponentContext;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -19,9 +20,7 @@ import java.util.stream.Stream;
  * @Date: 2021/3/5 23:47
  * @Descreption: 组件上下文
  */
-public class ComponentContext {
-
-    public static final String CONTEXT_NAME = ComponentContext.class.getName();
+public class ComponentContext implements WebComponentContext {
 
     private static final Logger logger = Logger.getLogger(CONTEXT_NAME);
 
@@ -58,6 +57,14 @@ public class ComponentContext {
         initializeComponents();
     }
 
+    public void destroy() {
+        componentsMap.values().forEach(component -> {
+            Class<?> componentClass = component.getClass();
+            //销毁
+            processPreDestroy(component, componentClass);
+        });
+    }
+
     private void initEnvContext() {
         if (this.envContext != null) {
             return;
@@ -91,8 +98,6 @@ public class ComponentContext {
             injectComponents(component, componentClass);
             //初始化
             processPostConstruct(component, componentClass);
-            //销毁
-            processPreDestroy(component, componentClass);
         });
     }
 
@@ -213,7 +218,7 @@ public class ComponentContext {
      * 根据组件的名称通过context加载组件
      *
      * @param name 组件名称
-     * @param <C>  组件类型
+     * @param <C>  function 返回值类型
      * @return 组件
      */
     protected <C> C lookupComponent(String name) {
@@ -225,7 +230,7 @@ public class ComponentContext {
      * 根据组件的名称通过context加载组件
      *
      * @param function 加载组件的方法
-     * @param <R>      组件的类型
+     * @param <R>      function 返回值类型
      * @return 组件
      */
     protected <R> R executeInContext(ThrowableFunction<Context, R> function) {
@@ -237,7 +242,7 @@ public class ComponentContext {
      *
      * @param function         加载组件的方法
      * @param ignoredException 是否忽略加载组件时出现的异常
-     * @param <R>              组件的类型
+     * @param <R>              function 返回值类型
      * @return 组件
      */
     protected <R> R executeInContext(ThrowableFunction<Context, R> function, boolean ignoredException) {
@@ -250,7 +255,7 @@ public class ComponentContext {
      * @param context          环境上下文
      * @param function         加载组件的方法
      * @param ignoredException 是否忽略加载组件时的异常
-     * @param <R>              组件的类型
+     * @param <R>              function 返回值类型
      * @return 组件
      */
     private <R> R executeInContext(Context context, ThrowableFunction<Context, R> function, boolean ignoredException) {
@@ -265,6 +270,18 @@ public class ComponentContext {
             }
         }
         return result;
+    }
+
+    /**
+     * 通过名称进行依赖查找
+     *
+     * @param name 组件的名称
+     * @param <C>  组件的类型
+     * @return
+     */
+    @Override
+    public <C> C getComponent(String name) {
+        return (C) componentsMap.get(name);
     }
 
 

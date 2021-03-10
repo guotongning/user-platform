@@ -3,12 +3,14 @@ package com.ning.web.mvc.servlet;
 import com.ning.web.mvc.controller.Controller;
 import com.ning.web.mvc.controller.PageController;
 import com.ning.web.mvc.controller.RestController;
+import com.ning.web.mvc.controller.WebComponentContext;
 import com.ning.web.mvc.exception.WebMvcException;
 import com.ning.web.mvc.handler.DefaultPageControllerHandler;
 import com.ning.web.mvc.handler.HandlerMethod;
 import com.ning.web.mvc.handler.PageControllerHandler;
 import org.apache.commons.lang.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +20,11 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static com.ning.web.mvc.utils.RequestMappingUtils.handleRequestMapping;
 import static java.util.Arrays.asList;
@@ -35,6 +40,8 @@ public class WebControllerServlet extends HttpServlet {
 
     private ServletContext servletContext;
 
+    private WebComponentContext webComponentContext;
+
     private PageControllerHandler pageControllerHandler;
     /**
      * 存储 requestMapping --> Controller 的映射
@@ -46,6 +53,8 @@ public class WebControllerServlet extends HttpServlet {
      */
     private Map<String, HandlerMethod> pathHandlerMethodMapping = new HashMap<>();
 
+
+    private Set<Controller> registeredControllers = new HashSet<>();
     /**
      * 一个控制层方法默认支持的请求方式
      */
@@ -54,8 +63,35 @@ public class WebControllerServlet extends HttpServlet {
 
     public void init() {
         servletContext = this.getServletContext();
+        webComponentContext = (WebComponentContext) servletContext.getAttribute(WebComponentContext.CONTEXT_NAME);
         initPageControllerHandler();
         initControllerInfo();
+        injectWebComponents();
+    }
+
+    private void injectWebComponents() {
+        registeredControllers.stream().forEach(controller -> {
+            Class<? extends Controller> controllerClass = controller.getClass();
+            injectWebComponents(controller, controllerClass);
+        });
+    }
+
+    private void injectWebComponents(Controller controller, Class<? extends Controller> clazz) {
+        Stream.of(clazz.getDeclaredFields()).filter(field -> {
+            int mods = field.getModifiers();
+            return !Modifier.isStatic(mods) &&
+                    field.isAnnotationPresent(Resource.class);
+        }).forEach(field -> {
+            Resource annotation = field.getAnnotation(Resource.class);
+            String name = annotation.name();
+            Object component = webComponentContext.getComponent(name);
+            field.setAccessible(true);
+            try {
+                field.set(controller, component);
+            } catch (IllegalAccessException e) {
+                throw new WebMvcException(String.format("can not init controller[%s] field[%s]", clazz, field.getName()));
+            }
+        });
     }
 
     /**
@@ -95,6 +131,7 @@ public class WebControllerServlet extends HttpServlet {
                         new HandlerMethod(requestMappingBuilder.toString(), method, supportedHttpMethods));
             }
             pathControllerMapping.put(requestMappingBuilder.toString(), implController);
+            registeredControllers.add(implController);
             servletContext.log(String.format("Loaded RequestMapping: [%s]", requestMappingBuilder.toString()));
         }
     }

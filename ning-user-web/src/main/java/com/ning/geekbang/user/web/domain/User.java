@@ -1,21 +1,31 @@
 package com.ning.geekbang.user.web.domain;
 
-import com.ning.commons.utils.StringUtils;
-import com.ning.geekbang.user.web.exception.RequestParamException;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
+
+import static javax.persistence.GenerationType.AUTO;
 
 /**
  * @Author: nicholas
  * @Date: 2021/3/1 21:23
  * @Descreption:
  */
+@Entity
+@Table(name = "users")
 public class User {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    private Integer id;
+    @Column
     private String name;
+    @Column
     private String email;
+    @Column
+    @Size(max = 32, min = 6)
     private String password;
+    @Column
+    @Size(max = 11, min = 11)
     private String phoneNumber;
 
     public User() {
@@ -28,17 +38,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public static User getCheckedUserFromRequest(HttpServletRequest request) throws Exception {
-        String name = request.getParameter("name");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
-            throw new RequestParamException("参数不完整！");
-        }
-        return new User(name, email, password, phoneNumber);
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id, name, email, password, phoneNumber);
@@ -49,7 +48,7 @@ public class User {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         User user = (User) obj;
-        return this.id == user.id && this.name.equals(user.name) && this.email.equals(user.email) && this.phoneNumber.equals(user.phoneNumber) && this.password.equals(user.password);
+        return this.id.equals(user.id) && this.name.equals(user.name) && this.email.equals(user.email) && this.phoneNumber.equals(user.phoneNumber) && this.password.equals(user.password);
     }
 
     @Override
@@ -63,11 +62,11 @@ public class User {
                 '}';
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

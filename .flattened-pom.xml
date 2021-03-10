@@ -13,23 +13,25 @@
     <module>commons</module>
   </modules>
   <properties>
-    <maven.source.version>3.2.1</maven.source.version>
-    <junit.version>4.13.2</junit.version>
+    <maven.flatten.version>1.2.5</maven.flatten.version>
+    <hibernate.version>5.4.29.Final</hibernate.version>
+    <version>1.0-SNAPSHOT</version>
+    <maven.jar.version>3.2.0</maven.jar.version>
+    <maven.source.version>3.1.0</maven.source.version>
     <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
-    <commons-lang.version>2.6</commons-lang.version>
-    <file.encoding>UTF-8</file.encoding>
+    <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+    <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
+    <maven.compiler.source>8</maven.compiler.source>
+    <junit.version>4.13.2</junit.version>
+    <maven.deploy.version>2.8.2</maven.deploy.version>
     <maven.war.version>3.3.1</maven.war.version>
-    <jstl.version>1.2</jstl.version>
     <maven.compiler.target>8</maven.compiler.target>
     <maven.compiler.version>3.8.1</maven.compiler.version>
-    <version>1.0-SNAPSHOT</version>
+    <jstl.version>1.2</jstl.version>
+    <hibernate.validator.version>5.1.3.Final</hibernate.validator.version>
+    <commons-lang.version>2.6</commons-lang.version>
     <derby.version>10.1.3.1</derby.version>
-    <maven.deploy.version>2.8.2</maven.deploy.version>
-    <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
-    <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-    <maven.jar.version>3.2.0</maven.jar.version>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.flatten.version>1.2.5</maven.flatten.version>
+    <file.encoding>UTF-8</file.encoding>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -57,6 +59,21 @@
         <groupId>org.apache.derby</groupId>
         <artifactId>derby</artifactId>
         <version>${derby.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate.validator.version}</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>

@@ -14,23 +14,25 @@ import java.util.logging.Logger;
  * ContextLoaderListener
  */
 @WebListener
-public class DBConnectionInitializerListener implements ServletContextListener {
+public class ApplicationInitializerListener implements ServletContextListener {
 
-    private static final Logger logger = Logger.getLogger(DBConnectionInitializerListener.class.getName());
+    private static final Logger logger = Logger.getLogger(ApplicationInitializerListener.class.getName());
 
     private ServletContext servletContext;
+
+    private ComponentContext context;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         logger.info("DBConnectionInitializerListener contextInitialized start");
         this.servletContext = sce.getServletContext();
-        ComponentContext context = new ComponentContext();
+        context = new ComponentContext();
         context.init(servletContext);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
+        context.destroy();
     }
 
 }

@@ -36,7 +36,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
     }
 
     @Override
-    public boolean deleteById(Long userId) {
+    public boolean deleteById(Integer userId) {
         return executeUpdate(DELETE_SQL, COMMON_EXCEPTION_HANDLER, userId) == 1;
     }
 
