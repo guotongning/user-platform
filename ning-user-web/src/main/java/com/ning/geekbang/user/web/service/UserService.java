@@ -48,20 +48,4 @@ public interface UserService {
      */
     User queryUserByNameAndPassword(String name, String password);
 
-    /*
-    1.1 the jdbc api
-the jdbc api provides programmatic access to relational data from the java
-programming language. using the jdbc api, applications written in the java
-programming language can execute sql statements, retrieve results, and propagate
-changes back to an underlying data source. the jdbc api can also be used to
-interact with multiple data sources in a distributed, heterogeneous environment.
-the jdbc api is based on the x/open sql cli, which is also the basis for odbc.
-jdbc provides a natural and easy-to-use mapping from the java programming
-language to the abstractions and concepts defined in the x/open cli and sql
-standards.
-since its introduction in january 1997, the jdbc api has become widely accepted
-and implemented. the flexibility of the api allows for a broad range of
-implementations.
-     */
-
 }

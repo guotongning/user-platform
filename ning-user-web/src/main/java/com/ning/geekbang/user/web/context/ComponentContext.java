@@ -3,6 +3,7 @@ package com.ning.geekbang.user.web.context;
 import com.ning.commons.function.ThrowableAction;
 import com.ning.commons.function.ThrowableFunction;
 import com.ning.web.mvc.controller.WebComponentContext;
+import com.ning.web.mvc.servlet.WebControllerServlet;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -44,7 +45,14 @@ public class ComponentContext implements WebComponentContext {
         return (ComponentContext) servletContext.getAttribute(CONTEXT_NAME);
     }
 
-
+    /**
+     * 这里初始化除Controller以外的所有Bean
+     *
+     * @param servletContext servletContext
+     * @see WebControllerServlet Controller 的初始化
+     * {@link WebControllerServlet#initControllerInfo()} 初始化阶段
+     * {@link WebControllerServlet#injectWebComponents()} 注入阶段
+     */
     public void init(ServletContext servletContext) {
         ComponentContext.servletContext = servletContext;
         servletContext.setAttribute(CONTEXT_NAME, this);
