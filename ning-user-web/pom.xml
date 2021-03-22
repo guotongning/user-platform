@@ -5,13 +5,13 @@
     <parent>
         <artifactId>user-platform</artifactId>
         <groupId>com.ning.projects</groupId>
-        <version>${version}</version>
+        <version>${reversion}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ning-user-web</artifactId>
-    <name>User Web Application ${version}</name>
+    <name>User Web Application ${reversion}</name>
     <packaging>war</packaging>
 
 
@@ -20,12 +20,17 @@
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>ning-web-mvc</artifactId>
-            <version>${version}</version>
+            <version>${reversion}</version>
         </dependency>
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>commons</artifactId>
-            <version>${version}</version>
+            <version>${reversion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ning.projects</groupId>
+            <artifactId>my-configuration</artifactId>
+            <version>${reversion}</version>
         </dependency>
 
         <!-- Servlet API -->

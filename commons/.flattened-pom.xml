@@ -10,6 +10,6 @@
   <groupId>com.ning.projects</groupId>
   <artifactId>commons</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Commons ${version}</name>
+  <name>Commons ${reversion}</name>
   <description>some utils and expansion pack</description>
 </project>

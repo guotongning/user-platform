@@ -10,9 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>commons</artifactId>
-    <name>Commons ${reversion}</name>
-    <packaging>jar</packaging>
-    <description>some utils and expansion pack</description>
+    <artifactId>my-dependency-injection</artifactId>
+
 
 </project>

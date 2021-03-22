@@ -10,7 +10,7 @@
   <groupId>com.ning.projects</groupId>
   <artifactId>ning-web-mvc</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>My Web-MVC Framework ${version}</name>
+  <name>My Web-MVC Framework ${reversion}</name>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
