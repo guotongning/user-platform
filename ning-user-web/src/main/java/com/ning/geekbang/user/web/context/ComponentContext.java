@@ -2,14 +2,18 @@ package com.ning.geekbang.user.web.context;
 
 import com.ning.commons.function.ThrowableAction;
 import com.ning.commons.function.ThrowableFunction;
+import com.ning.geekbang.user.web.domain.User;
+import com.ning.geekbang.user.web.management.UserManager;
 import com.ning.web.mvc.controller.WebComponentContext;
 import com.ning.web.mvc.servlet.WebControllerServlet;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.management.*;
 import javax.naming.*;
 import javax.servlet.ServletContext;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -29,11 +33,14 @@ public class ComponentContext implements WebComponentContext {
 
     private static ServletContext servletContext;
 
+    private MBeanServer mBeanServer;
+
     private Context envContext;
 
     private ClassLoader classLoader;
 
     private Map<String, Object> componentsMap = new LinkedHashMap<>();
+    private Map<String, Object> mBeanMap = new LinkedHashMap<>();
 
 
     /**
@@ -57,12 +64,36 @@ public class ComponentContext implements WebComponentContext {
         ComponentContext.servletContext = servletContext;
         servletContext.setAttribute(CONTEXT_NAME, this);
         this.classLoader = servletContext.getClassLoader();
+        mBeanServer = ManagementFactory.getPlatformMBeanServer();
         //初始化环境上下文
         initEnvContext();
         //实例化Bean
         instantiateComponents();
         //初始化Bean
         initializeComponents();
+        //实例化MBean
+        instantiateMBean();
+        //初始化MBean
+        initializeMBean();
+    }
+
+    /**
+     * 这里的实例化 = component 的 实例化 + 初始化
+     */
+    private void instantiateMBean() {
+        //TODO 以后在做加载吧。就先这么干了。
+        mBeanMap.put("User", new UserManager(new User()));
+    }
+
+    private void initializeMBean() {
+        mBeanMap.forEach((preName, mBean) -> {
+            try {
+                ObjectName name = new ObjectName("jolokia:name=" + preName);
+                mBeanServer.registerMBean(mBean, name);
+            } catch (Exception e) {
+                throw new RuntimeException("jolokia MBean init fail! name=" + preName,e);
+            }
+        });
     }
 
     public void destroy() {
