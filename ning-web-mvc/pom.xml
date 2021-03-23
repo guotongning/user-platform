@@ -15,6 +15,14 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- my ioc -->
+        <dependency>
+            <groupId>com.ning.projects</groupId>
+            <artifactId>my-dependency-injection</artifactId>
+            <version>${reversion}</version>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>

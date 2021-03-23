@@ -13,6 +13,12 @@
   <name>My Web-MVC Framework ${reversion}</name>
   <dependencies>
     <dependency>
+      <groupId>com.ning.projects</groupId>
+      <artifactId>my-dependency-injection</artifactId>
+      <version>${reversion}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>

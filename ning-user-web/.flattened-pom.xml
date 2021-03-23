@@ -15,12 +15,12 @@
   <dependencies>
     <dependency>
       <groupId>com.ning.projects</groupId>
-      <artifactId>ning-web-mvc</artifactId>
+      <artifactId>my-dependency-injection</artifactId>
       <version>${reversion}</version>
     </dependency>
     <dependency>
       <groupId>com.ning.projects</groupId>
-      <artifactId>commons</artifactId>
+      <artifactId>ning-web-mvc</artifactId>
       <version>${reversion}</version>
     </dependency>
     <dependency>

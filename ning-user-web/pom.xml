@@ -16,17 +16,19 @@
 
 
     <dependencies>
+        <!-- my ioc -->
+        <dependency>
+            <groupId>com.ning.projects</groupId>
+            <artifactId>my-dependency-injection</artifactId>
+            <version>${reversion}</version>
+        </dependency>
         <!--my pack-->
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>ning-web-mvc</artifactId>
             <version>${reversion}</version>
         </dependency>
-        <dependency>
-            <groupId>com.ning.projects</groupId>
-            <artifactId>commons</artifactId>
-            <version>${reversion}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>my-configuration</artifactId>

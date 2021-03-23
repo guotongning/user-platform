@@ -1,7 +1,6 @@
 package com.ning.geekbang.user.web.repository.autorepository;
 
 import com.ning.commons.function.ThrowableFunction;
-import com.ning.geekbang.user.web.context.ComponentContext;
 
 import javax.annotation.Resource;
 import java.beans.BeanInfo;

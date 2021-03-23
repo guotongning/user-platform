@@ -1,6 +1,6 @@
 package com.ning.geekbang.user.web.orm.jpa;
 
-import com.ning.geekbang.user.web.context.ComponentContext;
+import com.ning.geekbang.ioc.context.ComponentContext;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

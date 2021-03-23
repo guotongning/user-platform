@@ -1,16 +1,13 @@
-package com.ning.geekbang.user.web.context;
+package com.ning.geekbang.ioc.context;
 
 import com.ning.commons.function.ThrowableAction;
 import com.ning.commons.function.ThrowableFunction;
-import com.ning.geekbang.user.web.domain.User;
-import com.ning.geekbang.user.web.management.UserManager;
-import com.ning.web.mvc.controller.WebComponentContext;
-import com.ning.web.mvc.servlet.WebControllerServlet;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.management.*;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.naming.*;
 import javax.servlet.ServletContext;
 import java.lang.management.ManagementFactory;
@@ -25,7 +22,9 @@ import java.util.stream.Stream;
  * @Date: 2021/3/5 23:47
  * @Descreption: 组件上下文 这个实现是能有一个实例。应该再启动的时候做检查。但是我没做。
  */
-public class ComponentContext implements WebComponentContext {
+public class ComponentContext {
+
+    public static final String CONTEXT_NAME = "ComponentContext";
 
     private static final Logger logger = Logger.getLogger(CONTEXT_NAME);
 
@@ -54,11 +53,6 @@ public class ComponentContext implements WebComponentContext {
 
     /**
      * 这里初始化除Controller以外的所有Bean
-     *
-     * @param servletContext servletContext
-     * @see WebControllerServlet Controller 的初始化
-     * {@link WebControllerServlet#initControllerInfo()} 初始化阶段
-     * {@link WebControllerServlet#injectWebComponents()} 注入阶段
      */
     public void init(ServletContext servletContext) {
         ComponentContext.servletContext = servletContext;
@@ -82,7 +76,7 @@ public class ComponentContext implements WebComponentContext {
      */
     private void instantiateMBean() {
         //TODO 以后在做加载吧。就先这么干了。
-        mBeanMap.put("User", new UserManager(new User()));
+//        mBeanMap.put("User", new UserManager(new User()));
     }
 
     private void initializeMBean() {
@@ -91,7 +85,7 @@ public class ComponentContext implements WebComponentContext {
                 ObjectName name = new ObjectName("jolokia:name=" + preName);
                 mBeanServer.registerMBean(mBean, name);
             } catch (Exception e) {
-                throw new RuntimeException("jolokia MBean init fail! name=" + preName,e);
+                throw new RuntimeException("jolokia MBean init fail! name=" + preName, e);
             }
         });
     }
@@ -125,9 +119,9 @@ public class ComponentContext implements WebComponentContext {
     /**
      * 初始化组件 - 标准 Commons Annotation 生命周期
      * <ol>
-     * <li>注入阶段 - {@link javax.annotation.Resource}</li>
-     * <li>初始化阶段 - {@link javax.annotation.PostConstruct}</li>
-     * <li>销毁阶段 - {@link javax.annotation.PreDestroy}</li>
+     * <li>注入阶段 - {@link Resource}</li>
+     * <li>初始化阶段 - {@link PostConstruct}</li>
+     * <li>销毁阶段 - {@link PreDestroy}</li>
      * </ol>
      */
     private void initializeComponents() {
@@ -318,7 +312,6 @@ public class ComponentContext implements WebComponentContext {
      * @param <C>  组件的类型
      * @return
      */
-    @Override
     public <C> C getComponent(String name) {
         return (C) componentsMap.get(name);
     }

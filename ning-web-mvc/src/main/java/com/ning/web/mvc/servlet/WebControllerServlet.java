@@ -1,9 +1,9 @@
 package com.ning.web.mvc.servlet;
 
+import com.ning.geekbang.ioc.context.ComponentContext;
 import com.ning.web.mvc.controller.Controller;
 import com.ning.web.mvc.controller.PageController;
 import com.ning.web.mvc.controller.RestController;
-import com.ning.web.mvc.controller.WebComponentContext;
 import com.ning.web.mvc.exception.WebMvcException;
 import com.ning.web.mvc.handler.DefaultPageControllerHandler;
 import com.ning.web.mvc.handler.HandlerMethod;
@@ -20,7 +20,6 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -40,7 +39,7 @@ public class WebControllerServlet extends HttpServlet {
 
     private ServletContext servletContext;
 
-    private WebComponentContext webComponentContext;
+    private ComponentContext webComponentContext;
 
     private PageControllerHandler pageControllerHandler;
     /**
@@ -63,7 +62,7 @@ public class WebControllerServlet extends HttpServlet {
 
     public void init() {
         servletContext = this.getServletContext();
-        webComponentContext = (WebComponentContext) servletContext.getAttribute(WebComponentContext.CONTEXT_NAME);
+        webComponentContext = (ComponentContext) servletContext.getAttribute(ComponentContext.CONTEXT_NAME);
         initPageControllerHandler();
         initControllerInfo();
         injectWebComponents();

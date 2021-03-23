@@ -1,6 +1,7 @@
-package com.ning.geekbang.user.web.listener;
+package com.ning.geekbang.ioc.initializer;
 
-import com.ning.geekbang.user.web.context.ComponentContext;
+
+import com.ning.geekbang.ioc.context.ComponentContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -21,6 +22,8 @@ public class ApplicationInitializerListener implements ServletContextListener {
     private ServletContext servletContext;
 
     private ComponentContext context;
+
+
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
