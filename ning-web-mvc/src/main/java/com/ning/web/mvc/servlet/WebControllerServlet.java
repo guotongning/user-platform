@@ -194,8 +194,7 @@ public class WebControllerServlet extends HttpServlet {
         } else if (controller instanceof RestController) {
             //TODO 业务处理逻辑
             Result result = restControllerHandler.handle(request, response, controller);
-//            response.getWriter().write(JSON.toJSONString(result));
-            response.getOutputStream().write(JSON.toJSONString(result).getBytes(StandardCharsets.UTF_8));
+            response.getWriter().write(JSON.toJSONString(result));
         }
     }
 

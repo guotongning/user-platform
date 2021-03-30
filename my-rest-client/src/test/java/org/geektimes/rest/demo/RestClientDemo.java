@@ -8,6 +8,22 @@ import javax.ws.rs.core.Response;
 public class RestClientDemo {
 
     public static void main(String[] args) {
+//        get();
+        post();
+    }
+
+    private static void get() {
+        Client client = ClientBuilder.newClient();
+        Response response = client
+                .target("http://127.0.0.1:8080/hello/world")      // WebTarget
+                .request() // Invocation.Builder
+                .get();
+        //  Response
+        String result = response.readEntity(String.class);
+        System.out.println(result);
+    }
+
+    private static void post() {
         Client client = ClientBuilder.newClient();
         Response response = client
                 .target("http://127.0.0.1:8080/rest/test")      // WebTarget
