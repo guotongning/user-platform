@@ -22,6 +22,8 @@ public class DefaultInvocationBuilder implements Invocation.Builder {
 
     private CacheControl cacheControl;
 
+    private Entity entity;
+
     private MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
 
     private Map<String, Object> properties = new HashMap<>();
@@ -252,7 +254,7 @@ public class DefaultInvocationBuilder implements Invocation.Builder {
 
     @Override
     public Invocation buildPost(Entity<?> entity) {
-        return null;
+        return new HttpPostInvocation(uriBuilder.build(), headers, entity);
     }
 
     @Override

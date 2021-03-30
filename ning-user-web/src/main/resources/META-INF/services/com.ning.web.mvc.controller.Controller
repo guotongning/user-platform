@@ -1,3 +1,4 @@
 com.ning.geekbang.user.web.controller.HelloWorldController
 com.ning.geekbang.user.web.controller.RegisterPageController
 com.ning.geekbang.user.web.controller.UserRegisterController
+com.ning.geekbang.user.web.controller.RestControllerTest
