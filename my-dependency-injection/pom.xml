@@ -5,13 +5,13 @@
     <parent>
         <artifactId>user-platform</artifactId>
         <groupId>com.ning.projects</groupId>
-        <version>${reversion}</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>my-dependency-injection</artifactId>
-    <name>My my-dependency-injection Framework ${reversion}</name>
+    <name>My my-dependency-injection Framework ${revision}</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>commons</artifactId>
-            <version>${reversion}</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>
