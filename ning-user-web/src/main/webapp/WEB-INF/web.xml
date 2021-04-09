@@ -7,7 +7,7 @@
 
     <!-- 确保配置再第一位 -->
     <listener>
-        <listener-class>com.ning.geekbang.user.web.listener.ApplicationInitializerListener</listener-class>
+        <listener-class>com.ning.geekbang.user.web.listener.ComponentContextInitializerListener</listener-class>
     </listener>
 
     <servlet>

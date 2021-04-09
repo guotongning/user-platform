@@ -2,6 +2,7 @@ package com.ning.geekbang.user.web.service.impl;
 
 import com.ning.geekbang.user.web.domain.User;
 import com.ning.geekbang.user.web.service.UserService;
+import org.json.simple.JSONObject;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;

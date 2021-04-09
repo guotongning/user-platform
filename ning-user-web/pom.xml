@@ -5,27 +5,34 @@
     <parent>
         <artifactId>user-platform</artifactId>
         <groupId>com.ning.projects</groupId>
-        <version>${version}</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ning-user-web</artifactId>
-    <name>User Web Application ${version}</name>
+    <name>User Web Application ${revision}</name>
     <packaging>war</packaging>
 
 
     <dependencies>
+        <!-- my ioc -->
+        <dependency>
+            <groupId>com.ning.projects</groupId>
+            <artifactId>my-dependency-injection</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!--my pack-->
         <dependency>
             <groupId>com.ning.projects</groupId>
             <artifactId>ning-web-mvc</artifactId>
-            <version>${version}</version>
+            <version>${revision}</version>
         </dependency>
+
         <dependency>
             <groupId>com.ning.projects</groupId>
-            <artifactId>commons</artifactId>
-            <version>${version}</version>
+            <artifactId>my-configuration</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <!-- Servlet API -->

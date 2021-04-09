@@ -1,14 +1,14 @@
 package com.ning.web.mvc.servlet;
 
+import com.ning.geekbang.ioc.context.ComponentContext;
 import com.ning.web.mvc.controller.Controller;
 import com.ning.web.mvc.controller.PageController;
 import com.ning.web.mvc.controller.RestController;
-import com.ning.web.mvc.controller.WebComponentContext;
 import com.ning.web.mvc.exception.WebMvcException;
-import com.ning.web.mvc.handler.DefaultPageControllerHandler;
-import com.ning.web.mvc.handler.HandlerMethod;
-import com.ning.web.mvc.handler.PageControllerHandler;
+import com.ning.web.mvc.handler.*;
+import com.ning.web.mvc.response.Result;
 import org.apache.commons.lang.StringUtils;
+import com.alibaba.fastjson.JSON;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -20,9 +20,9 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -40,9 +40,11 @@ public class WebControllerServlet extends HttpServlet {
 
     private ServletContext servletContext;
 
-    private WebComponentContext webComponentContext;
+    private ComponentContext webComponentContext;
 
     private PageControllerHandler pageControllerHandler;
+
+    private RestControllerHandler restControllerHandler;
     /**
      * 存储 requestMapping --> Controller 的映射
      */
@@ -63,8 +65,9 @@ public class WebControllerServlet extends HttpServlet {
 
     public void init() {
         servletContext = this.getServletContext();
-        webComponentContext = (WebComponentContext) servletContext.getAttribute(WebComponentContext.CONTEXT_NAME);
+        webComponentContext = (ComponentContext) servletContext.getAttribute(ComponentContext.CONTEXT_NAME);
         initPageControllerHandler();
+        initRestControllerHandler();
         initControllerInfo();
         injectWebComponents();
     }
@@ -109,6 +112,20 @@ public class WebControllerServlet extends HttpServlet {
         }
         servletContext.log(String.format("PageControllerHandler has been set: [%s]", pageControllerHandler.getClass().getSimpleName()));
     }
+
+    private void initRestControllerHandler() {
+        servletContext.log("Init RestControllerHandler Start");
+        ServiceLoader<RestControllerHandler> restControllerHandlers = ServiceLoader.load(RestControllerHandler.class);
+        Iterator<RestControllerHandler> iterator = restControllerHandlers.iterator();
+        if (iterator.hasNext()) {
+            //多个只有第一个生效
+            restControllerHandler = iterator.next();
+        } else {
+            restControllerHandler = new DefaultRestControllerHandler();
+        }
+        servletContext.log(String.format("RestControllerHandler has been set: [%s]", restControllerHandler.getClass().getSimpleName()));
+    }
+
 
     private void initControllerInfo() {
         servletContext.log("Init RequestMapping Start");
@@ -176,7 +193,8 @@ public class WebControllerServlet extends HttpServlet {
             pageControllerHandler.handle(request, response, controller);
         } else if (controller instanceof RestController) {
             //TODO 业务处理逻辑
-
+            Result result = restControllerHandler.handle(request, response, controller);
+            response.getWriter().write(JSON.toJSONString(result));
         }
     }
 

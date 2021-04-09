@@ -5,13 +5,13 @@
     <parent>
         <artifactId>user-platform</artifactId>
         <groupId>com.ning.projects</groupId>
-        <version>${version}</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>commons</artifactId>
-    <name>Commons ${version}</name>
+    <name>Commons ${revision}</name>
     <packaging>jar</packaging>
     <description>some utils and expansion pack</description>
 
