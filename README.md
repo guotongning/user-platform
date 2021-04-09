@@ -30,3 +30,5 @@ java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y -jar 
 ### 单元测试
 
 > 覆盖了UserService所有方法的测试类 com.ning.geekbang.user.web.service.impl.UserServiceImplTest
+
+注意：测试类已经删除掉了，无法使用了。
